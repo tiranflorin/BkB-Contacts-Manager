@@ -26,12 +26,12 @@
     var ContactView = Backbone.View.extend({
         tagName: "article",
         className: "contact-container",
-        template: _.template($("#contactTemplate").html()),
-        editTemplate: _.template($("#contactEditTemplate").html()),
-
+        template: Handlebars.compile($("#contactTemplate").html()),
+        editTemplate: Handlebars.compile($("#contactEditTemplate").html()),
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
-            return this;
+                // debugger;
+                this.$el.html(this.template(this.model.toJSON()));
+                return this;
         },
 
         events: {
@@ -160,18 +160,20 @@
         },
 
         getTypes: function () {
-            return _.uniq(this.collection.pluck("type"), false, function (type) {
+            var newCollection = new Backbone.Collection(this.items);
+            var types = newCollection.pluck("type");
+            return _.uniq(types, false, function (type) {
                 return type.toLowerCase();
             });
         },
 
         handleSync: function () {
+            // Set items with the actual data.
+            this.items = this.collection.models;
+
             // Rebuild the filter area.
             this.$el.find("#filter").html('<label>Show me:</label>');
             this.$el.find("#filter").append(this.createSelect());
-
-            // Set items with the actual data.
-            this.items = this.collection.models;
         },
 
         createSelect: function () {
