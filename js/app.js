@@ -19,7 +19,7 @@
     //define directory collection
     var Directory = Backbone.Collection.extend({
         model: Contact,
-        url: 'http://localhost/projects/Test-Proj/web/app_dev.php/contact'
+        url: 'http://localhost/projects/Contacts-Rest-Api/web/app_dev.php/contact'
     });
 
     //define individual contact view
